@@ -1,0 +1,11 @@
+{
+  "sessionID": "sessionID",
+  
+  "messages": [
+    {
+      "sender": "bot/user",
+      "time": "time",
+      "message": "text"
+    }
+  ]
+}
