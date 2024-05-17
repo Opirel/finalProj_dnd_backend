@@ -1,12 +1,12 @@
 from beanie import Document, init_beanie
 from motor.motor_asyncio import AsyncIOMotorClient
 from models.invoiceModelDetailed import DetailedReportDetails  # Ensure this inheritance is needed or correct
-from models.sessionModel import Session
+from models.sessionModel import SessionMD
 import os
 import logging
 
 # Assuming Session is a class you want to use as a MongoDB document model
-class Sessions(Document, Session):
+class Sessions(Document, SessionMD):
     pass
 
 async def init_db():
@@ -20,11 +20,11 @@ async def init_db():
 
 def create_mongo_url() -> str:
     # It's better to use environment variables to manage sensitive data
-    username = os.getenv("MONGO_USER", "rootuser")
-    password = os.getenv("MONGO_PASS", "rootpass")
-    host = os.getenv("MONGO_HOST", "mongodb")
-    port = os.getenv("MONGO_PORT", "27017")
-    mongo_url = "mongodb://rootuser:rootpass@127.0.0.1:27017/"
+    # username = os.getenv("MONGO_USER", "rootuser")
+    # password = os.getenv("MONGO_PASS", "rootpass")
+    # host = os.getenv("MONGO_HOST", "mongodb")
+    # port = os.getenv("MONGO_PORT", "27017")
+    mongo_url = "mongodb://127.0.0.1:27017/"
     return mongo_url
 
 # Configure logging here if this is the entry point of your application

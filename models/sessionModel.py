@@ -14,9 +14,10 @@ class Message(BaseModel):
 
 class SessionCreate(BaseModel):
     sessionID: str
-    messages: List[Message]
+    conversation: List[Message]
+    # updatedInfo: any
 
-class Session(BaseModel):
+class SessionMD(BaseModel):
     sessionID: str
-    messages: List[Message]
+    conversation: List[Message]
 
