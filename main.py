@@ -2,18 +2,29 @@ from database import init_db  # Adjust import as necessary
 from routes import router as api_router
 from fastapi import FastAPI, Request, status
 from fastapi.encoders import jsonable_encoder
-from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel, ValidationError, constr
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
-# FIXME:on_event deprecated
+
+# Initialize the database on startup
 @app.on_event("startup")
 async def startup_event():
     await init_db()
+
+# Include the API router
 app.include_router(api_router)
 
+# Add CORS middleware to allow all origins, methods, and headers
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allow all origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all methods
+    allow_headers=["*"],  # Allow all headers
+)
 
+# Custom validation exception handler (commented out for now)
 # async def validation_exception_handler(request: Request, exc: ValidationError):
 #     details = exc.errors()
 #     modified_details = []
@@ -30,9 +41,10 @@ app.include_router(api_router)
 
 # app.add_exception_handler(ValidationError, validation_exception_handler)
 
+# Middleware to check the request path for invalid characters
 @app.middleware("http")
 async def check_path(request: Request, call_next):
-    # Check the request path is not a invalid string  
+    # Check if the request path contains invalid characters
     path = request.url.path
     if any(char in path for char in "`@$#%^*=<>[]|\\~"):
         return JSONResponse({"error": "format error"}, status_code=400)
@@ -40,4 +52,3 @@ async def check_path(request: Request, call_next):
     # If the path is valid, continue to the actual request handler
     response = await call_next(request)
     return response
- 

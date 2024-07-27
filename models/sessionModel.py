@@ -12,12 +12,9 @@ class Message(BaseModel):
     time: datetime = Field(default_factory=datetime.now)
     message: str
 
-class SessionCreate(BaseModel):
-    sessionID: str
-    conversation: List[Message]
-    # updatedInfo: any
 
 class SessionMD(BaseModel):
+    title: str  
     sessionID: str
     conversation: List[Message]
 
