@@ -1,6 +1,6 @@
 from beanie import Document, init_beanie
 from motor.motor_asyncio import AsyncIOMotorClient
-from models.invoiceModelDetailed import DetailedReportDetails  # Ensure this inheritance is needed or correct
+
 from models.sessionModel import SessionMD
 import os
 import logging

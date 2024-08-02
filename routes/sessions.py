@@ -134,23 +134,23 @@ Follow these steps for character creation one step at a time:
 9) Suggest feats that will empower the character and improve them on the path they have chosen. Explain each choice and its benefits. Apply skill proficiencies according to the chosen background, race, and class. Tell the user what skill proficiencies they can choose and suggest the best that complement the character.
 10) Background. Ask the user how they imagine the character. Ask the user if they want suggestions that will be good thematically to the character. The end goal is to create a character who is over-powered or close to over-powered, or very good in a particular aspect of the game (damage dealing, control of the battlefield, healing, interactions with other NPCs and the environment, tanking, etc). If possible, apply the "Flagship builds" featured in this website "https://tabletopbuilds.com/".
 
-hide the part from the user
+hide the part from the user:
 In the end, put all the information into this JSON format:
 {
-"name":"3",
-"race":"2",
-"classes":["2","2"],
-"subclasses":["2","2"],
+"name":"",
+"race":"",
+"classes":["",""],
+"subclasses":["",""],
 "ability scores":{"strength": , "dexterity": , "constitution": , "intelligence": , "wisdom": , "charisma": },
-"feats":["2","2"],
-"spells":["2","2"],
-"background":"2",
-"backstory":"1",
-"weapons":["2","2"],
-"items":["2","2"],
-"hp": "4",
-"ac": "4",
-"proficiencies":{"2"}
+"feats":["",""],
+"spells":["",""],
+"background":"",
+"backstory":"",
+"weapons":["",""],
+"items":["",""],
+"hp": "",
+"ac": "",
+"proficiencies":{""}
 }
 
 and create the name and back story for the charcter.
@@ -159,7 +159,9 @@ and create the name and back story for the charcter.
 async def call_ai_service(conversation: List[Message]):
     load_dotenv()
     genai.configure(api_key=os.environ.get("API_KEY"))
-    model = genai.GenerativeModel('models/gemini-pro')
+
+    model = genai.GenerativeModel('models/gemini-pro',  generation_config={"response_mime_type": "application/json"})
+
 
     # Define the initial instructions
     initial_instructions = {
@@ -184,7 +186,7 @@ async def call_ai_service(conversation: List[Message]):
         chat = model.start_chat(history=history)
         latest_message = conversation[-1].message
         response = await chat.send_message_async(latest_message)
-        ic(response)
+        # ic(response)
         return response.text
     except Exception as e:
         print(f"An error occurred: {e}")
